@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rake ignite
+source ~/.bash_profile
