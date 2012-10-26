@@ -1,6 +1,6 @@
 # Ignition
 
-Takes a Mac OS X (10.8 Mountain Lion) computer and sets it up for Ruby/Rails development.
+Set up your Mac OS X computer for Ruby/Rails development.
 
 ## Usage
 
@@ -23,7 +23,7 @@ I suggest reloading your shell between individual components, and at the end of 
 
 ## Compatibility
 
-I have only tested this on Mac OS X 10.8 (Mountain Lion), with Xcode 4.5.1, and/or the Command Line Tools release from Oct. 3, 2012. I make no claims that it will work on other systems with other versions of the above software.
+I have only tested this on freshly formatted Mac OS X 10.8 (Mountain Lion), with Xcode 4.5.1, and/or the Command Line Tools release from Oct. 3, 2012. I make no claims that it will work on other systems with other versions of the above software.
 
 ## Limitations
 
