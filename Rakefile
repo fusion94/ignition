@@ -3,19 +3,23 @@ require 'rake'
 namespace :ignite do
   TARGET_RUBY_VERSION = '1.9.3-p286'
 
-  task :all => ['homebrew', 'git', 'ruby', 'rails', 'db:postgres', 'pow']
+  namespace :db do
+    desc 'Install PostgreSQL.'
+    task :postgres do
+      if install_homebrew
+        if install_homebrew_package 'postgresql'
+          `initdb /usr/local/var/postgres -E utf8`
 
-  desc 'Install Homebrew.'
-  task :homebrew do
-    if homebrew_installed?
-      puts '** Homebrew already installed. **'
-    else
-      puts "\n**** Installing Homebrew ****"
-      system 'ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"'
+          FileUtils.mkdir_p "#{ENV['HOME']}/Library/LaunchAgents"
+          FileUtils.cp '/usr/local/Cellar/postgresql/9.2.1/homebrew.mxcl.postgresql.plist', "#{ENV['HOME']}/Library/LaunchAgents/"
 
-      `echo 'PATH="/usr/local/bin:/usr/local/sbin:$PATH"\nexport PATH' >> ~/.bash_profile`
+          `launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist`
+        end
+      end
     end
   end
+
+  task :all => ['homebrew', 'git', 'ruby', 'rails', 'db:postgres', 'pow']
 
   desc 'Install Git and hub.'
   task :git do
@@ -39,23 +43,15 @@ namespace :ignite do
     end
   end
 
-  desc "Install rbenv, ruby-build, and latest Ruby."
-  task :ruby do
-    if install_homebrew
-      install_homebrew_package 'rbenv'
-      install_homebrew_package 'ruby-build'
+  desc 'Install Homebrew.'
+  task :homebrew do
+    if homebrew_installed?
+      puts '** Homebrew already installed. **'
+    else
+      puts "\n**** Installing Homebrew ****"
+      system 'ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"'
 
-      if %x{rbenv versions}.include? TARGET_RUBY_VERSION
-        puts "** Ruby #{TARGET_RUBY_VERSION} already installed. **"
-      else
-        puts "\n**** Installing Ruby #{TARGET_RUBY_VERSION} ****"
-        system "rbenv install #{TARGET_RUBY_VERSION}"
-        `rbenv rehash`
-        `rbenv global #{TARGET_RUBY_VERSION}`
-
-        `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
-        `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
-      end
+      `echo 'PATH="/usr/local/bin:/usr/local/sbin:$PATH"\nexport PATH' >> ~/.bash_profile`
     end
   end
 
@@ -66,22 +62,6 @@ namespace :ignite do
     else
       puts "\n**** Installing Pow ****"
       system 'curl get.pow.cx | sh'
-    end
-  end
-
-  namespace :db do
-    desc 'Install PostgreSQL.'
-    task :postgres do
-      if install_homebrew
-        if install_homebrew_package 'postgresql'
-          `initdb /usr/local/var/postgres -E utf8`
-
-          FileUtils.mkdir_p "#{ENV['HOME']}/Library/LaunchAgents"
-          FileUtils.cp '/usr/local/Cellar/postgresql/9.2.1/homebrew.mxcl.postgresql.plist', "#{ENV['HOME']}/Library/LaunchAgents/"
-
-          `launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist`
-        end
-      end
     end
   end
 
@@ -100,6 +80,26 @@ namespace :ignite do
       puts 'Would you like to install it now? (y or n)'
       case STDIN.gets.chomp
       when 'y' then Rake::Task['ignite:ruby'].invoke
+      end
+    end
+  end
+
+  desc "Install rbenv, ruby-build, and latest Ruby."
+  task :ruby do
+    if install_homebrew
+      install_homebrew_package 'rbenv'
+      install_homebrew_package 'ruby-build'
+
+      if %x{rbenv versions}.include? TARGET_RUBY_VERSION
+        puts "** Ruby #{TARGET_RUBY_VERSION} already installed. **"
+      else
+        puts "\n**** Installing Ruby #{TARGET_RUBY_VERSION} ****"
+        system "rbenv install #{TARGET_RUBY_VERSION}"
+        `rbenv rehash`
+        `rbenv global #{TARGET_RUBY_VERSION}`
+
+        `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
+        `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
       end
     end
   end
