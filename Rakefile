@@ -3,9 +3,7 @@ require 'rake'
 namespace :ignite do
   TARGET_RUBY_VERSION = '1.9.3-p286'
 
-  task :all => ['homebrew', 'git', 'ruby', 'rails', 'db:postgres', 'pow'] do
-    exec 'source ~/.bash_profile'
-  end
+  task :all => ['homebrew', 'git', 'ruby', 'rails', 'db:postgres', 'pow']
 
   desc 'Install Homebrew.'
   task :homebrew do
@@ -16,7 +14,6 @@ namespace :ignite do
       system 'ruby -e "$(curl -fsSkL raw.github.com/mxcl/homebrew/go)"'
 
       `echo 'PATH="/usr/local/bin:/usr/local/sbin:$PATH"\nexport PATH' >> ~/.bash_profile`
-      `source ~/.bash_profile`
     end
   end
 
@@ -34,7 +31,6 @@ namespace :ignite do
 
       if install_homebrew_package 'hub'
         `echo 'alias git="hub"' >> ~/.bash_profile`
-        `source ~/.bash_profile`
 
         puts "\nSetting up hub."
         puts 'What is your GitHub username?'
@@ -59,7 +55,6 @@ namespace :ignite do
 
         `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
         `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
-        `source ~/.bash_profile`
       end
     end
   end
@@ -93,11 +88,11 @@ namespace :ignite do
   desc 'Install the latest Rails gem.'
   task :rails do
     if %x{rbenv versions}.include? TARGET_RUBY_VERSION
-      if %x{gem list}.split("\n").map { |x| x.split.first }.include? 'rails'
+      if %x{~/.rbenv/shims/gem list}.split("\n").map { |x| x.split.first }.include? 'rails'
         puts '** Rails already installed **'
       else
         puts "\n**** Installing Rails ****"
-        `gem install rails --no-ri --no-rdoc`
+        `~/.rbenv/shims/gem install rails --no-ri --no-rdoc`
         `rbenv rehash`
       end
     else
