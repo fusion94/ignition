@@ -73,7 +73,6 @@ namespace :ignite do
       else
         puts "\n**** Installing Rails ****"
         `~/.rbenv/shims/gem install rails --no-ri --no-rdoc`
-        `rbenv rehash`
       end
     else
       puts "\n** You must install Ruby first. **"
@@ -96,8 +95,9 @@ namespace :ignite do
         puts "\n**** Installing Ruby #{TARGET_RUBY_VERSION} ****"
         system "rbenv install #{TARGET_RUBY_VERSION}"
         `rbenv global #{TARGET_RUBY_VERSION}`
-        `~/.rbenv/shims/gem install bundler --no-ri --no-rdoc`
         `rbenv rehash`
+        `~/.rbenv/shims/gem install rbenv-autohash --no-ri --no-rdoc`
+        `~/.rbenv/shims/gem install bundler --no-ri --no-rdoc`
 
         `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
         `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
