@@ -95,8 +95,9 @@ namespace :ignite do
       else
         puts "\n**** Installing Ruby #{TARGET_RUBY_VERSION} ****"
         system "rbenv install #{TARGET_RUBY_VERSION}"
-        `rbenv rehash`
         `rbenv global #{TARGET_RUBY_VERSION}`
+        `~/.rbenv/shims/gem install bundler --no-ri --no-rdoc`
+        `rbenv rehash`
 
         `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
         `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
