@@ -1,7 +1,7 @@
 require 'rake'
 
 namespace :ignite do
-  TARGET_RUBY_VERSION = '1.9.3-p327'
+  TARGET_RUBY_VERSION = '1.9.3-p362'
 
   namespace :db do
     desc 'Install PostgreSQL.'
