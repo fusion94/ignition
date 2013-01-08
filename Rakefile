@@ -11,7 +11,7 @@ namespace :ignite do
           `initdb /usr/local/var/postgres -E utf8`
 
           FileUtils.mkdir_p "#{ENV['HOME']}/Library/LaunchAgents"
-          FileUtils.cp '/usr/local/Cellar/postgresql/9.2.1/homebrew.mxcl.postgresql.plist', "#{ENV['HOME']}/Library/LaunchAgents/"
+          FileUtils.ln_s "/usr/local/Cellar/postgresql/#{`psql --version`.split.last}/homebrew.mxcl.postgresql.plist", "#{ENV['HOME']}/Library/LaunchAgents/"
 
           `launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist`
         end
