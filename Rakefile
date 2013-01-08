@@ -13,7 +13,7 @@ namespace :ignite do
           `initdb /usr/local/var/postgres -E utf8`
 
           FileUtils.mkdir_p "#{ENV['HOME']}/Library/LaunchAgents"
-          FileUtils.ln_s "/usr/local/Cellar/postgresql/#{`psql --version`.split.last}/homebrew.mxcl.postgresql.plist", "#{ENV['HOME']}/Library/LaunchAgents/"
+          FileUtils.ln_s "/usr/local/opt/postgresql/homebrew.mxcl.postgresql.plist", "#{ENV['HOME']}/Library/LaunchAgents/"
 
           `launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist`
         end
@@ -25,7 +25,7 @@ namespace :ignite do
       if install_homebrew
         if install_homebrew_package 'redis'
           FileUtils.mkdir_p "#{ENV['HOME']}/Library/LaunchAgents"
-          FileUtils.ln_s "/usr/local/Cellar/redis/#{`redis-cli --version`.split.last}/homebrew.mxcl.redis.plist", "#{ENV['HOME']}/Library/LaunchAgents/"
+          FileUtils.ln_s "/usr/local/opt/redis/homebrew.mxcl.redis.plist", "#{ENV['HOME']}/Library/LaunchAgents/"
 
           `launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.redis.plist`
         end
