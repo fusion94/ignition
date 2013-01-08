@@ -1,4 +1,4 @@
-# Ignition
+# Ignition :rocket:
 
 Set up your Mac OS X computer for Ruby/Rails development.
 
@@ -24,11 +24,11 @@ I suggest reloading your shell between individual components, and at the end of 
 
 ## Compatibility
 
-I have only tested this on freshly formatted Mac OS X 10.8 (Mountain Lion), with Xcode 4.5.1, and/or the Command Line Tools release from Oct. 3, 2012. I make no claims that it will work on other systems with other versions of the above software.
+I have only been able to test this on freshly formatted systems using Mac OS X 10.8 (Mountain Lion), with Xcode 4.5.1, and/or the Command Line Tools release from Oct. 3, 2012 or later. I make no claims that it will work on other systems with different versions of the above software.
 
 ## Limitations
 
-It does very little configuration other than adding the bare minimum to `.bash_profile` and `.gitconfig` to get things running. Feel free to configure everything to your liking afterwards.
+It does very little configuration other than adding the bare minimum to `.bash_profile` and `.gitconfig` to get things running. Feel free to configure everything to your liking afterwards. You can check out my [dotfiles repo](https://github.com/joedynamite/dotfiles) for some ideas.
 
 Currently, Ignition has no built-in way to uninstall or update components, but the components themselves usually have that functionality built into them.
 
