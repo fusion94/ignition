@@ -13,6 +13,7 @@ Installing everything takes a while, but there are a few prompts while it's runn
 You can also use `rake` to install individual components:
 
     rake ignite:db:postgres  # Install PostgreSQL.
+    rake ignite:db:redis     # Install Redis.
     rake ignite:git          # Install Git and hub.
     rake ignite:homebrew     # Install Homebrew.
     rake ignite:pow          # Install the Pow web server.

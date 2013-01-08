@@ -4,6 +4,8 @@ namespace :ignite do
   TARGET_RUBY_VERSION = '1.9.3-p362'
 
   namespace :db do
+    task all: ['postgres', 'redis']
+
     desc 'Install PostgreSQL.'
     task :postgres do
       if install_homebrew
@@ -17,9 +19,23 @@ namespace :ignite do
         end
       end
     end
+
+    desc 'Install Redis.'
+    task :redis do
+      if install_homebrew
+        if install_homebrew_package 'redis'
+          FileUtils.mkdir_p "#{ENV['HOME']}/Library/LaunchAgents"
+          FileUtils.ln_s "/usr/local/Cellar/redis/#{`redis-cli --version`.split.last}/homebrew.mxcl.redis.plist", "#{ENV['HOME']}/Library/LaunchAgents/"
+
+          `launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.redis.plist`
+        end
+      end
+    end
   end
 
-  task all: ['homebrew', 'git', 'ruby', 'rails', 'db:postgres', 'pow']
+  task all: ['homebrew', 'git', 'ruby', 'rails', 'db', 'pow']
+
+  task db: ['db:all']
 
   desc 'Install Git and hub.'
   task :git do
