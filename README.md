@@ -18,7 +18,7 @@ You can also use `rake` to install individual components:
     rake ignite:homebrew     # Install Homebrew.
     rake ignite:pow          # Install the Pow web server.
     rake ignite:rails        # Install the latest Rails gem.
-    rake ignite:ruby         # Install rbenv, ruby-build, and latest Ruby.
+    rake ignite:ruby         # Install rbenv, ruby-build, rbenv-bundler, and latest Ruby.
 
 I suggest reloading your shell between individual components, and at the end of a full install.
 

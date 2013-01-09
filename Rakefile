@@ -99,11 +99,12 @@ namespace :ignite do
     end
   end
 
-  desc "Install rbenv, ruby-build, and latest Ruby."
+  desc "Install rbenv, ruby-build, rbenv-bundler, and latest Ruby."
   task :ruby do
     if install_homebrew
       install_homebrew_package 'rbenv'
       install_homebrew_package 'ruby-build'
+      install_homebrew_package 'rbenv-bundler'
 
       if %x{rbenv versions}.include? TARGET_RUBY_VERSION
         puts "** Ruby #{TARGET_RUBY_VERSION} already installed. **"
