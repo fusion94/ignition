@@ -34,4 +34,4 @@ Currently, Ignition has no built-in way to uninstall or update components, but t
 
 ----
 
-Copyright &copy; 2012 Joe Bilt.
+Copyright &copy; 2013 Joe Bilt.
