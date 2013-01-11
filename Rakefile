@@ -4,7 +4,7 @@ namespace :ignite do
   TARGET_RUBY_VERSION = '1.9.3-p362'
 
   namespace :db do
-    task all: ['postgres', 'redis']
+    task :all => ['postgres', 'redis']
 
     desc 'Install PostgreSQL.'
     task :postgres do
@@ -33,9 +33,9 @@ namespace :ignite do
     end
   end
 
-  task all: ['homebrew', 'git', 'ruby', 'rails', 'db', 'pow']
+  task :all => ['homebrew', 'git', 'ruby', 'rails', 'db', 'pow']
 
-  task db: ['db:all']
+  task :db => ['db:all']
 
   desc 'Install Git and hub.'
   task :git do
@@ -148,4 +148,4 @@ namespace :ignite do
 end
 
 desc 'Run all Ignition tasks in ordered succession.'
-task ignite: 'ignite:all'
+task :ignite => 'ignite:all'
