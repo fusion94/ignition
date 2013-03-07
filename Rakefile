@@ -1,7 +1,7 @@
 require 'rake'
 
 namespace :ignite do
-  TARGET_RUBY_VERSION = '1.9.3-p362'
+  TARGET_RUBY_VERSIONS = ['1.8.7-p371', '1.9.2-p320', '1.9.3-p392', '2.0.0-p0']
 
   namespace :db do
     task :all => ['postgres', 'redis']
@@ -106,19 +106,24 @@ namespace :ignite do
       install_homebrew_package 'ruby-build'
       install_homebrew_package 'rbenv-bundler'
 
-      if %x{rbenv versions}.include? TARGET_RUBY_VERSION
-        puts "** Ruby #{TARGET_RUBY_VERSION} already installed. **"
-      else
-        puts "\n**** Installing Ruby #{TARGET_RUBY_VERSION} ****"
-        system "rbenv install #{TARGET_RUBY_VERSION}"
-        `rbenv global #{TARGET_RUBY_VERSION}`
-        `rbenv rehash`
-        `~/.rbenv/shims/gem install rbenv-autohash --no-ri --no-rdoc`
-        `~/.rbenv/shims/gem install bundler --no-ri --no-rdoc`
-
-        `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
-        `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
+      TARGET_RUBY_VERSIONS.each do |version|
+        if %x{rbenv versions}.include? version
+          puts "** Ruby #{version} already installed. **"
+        else
+          puts "\n**** Installing Ruby #{version} ****"
+          `export CFLAGS=-Wno-error=shorten-64-to-32`
+          system "rbenv install #{version}"
+          `rbenv global #{version}`
+          `rbenv rehash`
+          ENV.delete('RBENV_VERSION')
+          `~/.rbenv/shims/gem install rbenv-autohash --no-ri --no-rdoc`
+          `~/.rbenv/shims/gem install bundler --no-ri --no-rdoc`
+          `rbenv rehash`
+        end
       end
+
+      `echo 'if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi' >> ~/.bash_profile`
+      `echo 'PATH="$HOME/.rbenv/shims:$PATH"\nexport PATH' >> ~/.bash_profile`
     end
   end
 
